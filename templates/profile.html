@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Utilisateur</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Profil de l'utilisateur</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Accueil</a></li>
+                <li><a href="{{ url_for('profile') }}">Profil</a></li>
+                <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="profile-info">
+            <h2>Informations personnelles</h2>
+            <p><strong>Nom :</strong> {{ user.name }}</p>
+            <p><strong>Email :</strong> {{ user.email }}</p>
+            <p><strong>Date d'inscription :</strong> {{ user.date_joined }}</p>
+        </section>
+        <section class="profile-actions">
+            <h2>Actions</h2>
+            <ul>
+                <li><a href="{{ url_for('edit_profile') }}">Modifier le profil</a></li>
+                <li><a href="{{ url_for('change_password') }}">Changer le mot de passe</a></li>
+                <li><a href="{{ url_for('delete_account') }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">Supprimer le compte</a></li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Projet GreenIT. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
