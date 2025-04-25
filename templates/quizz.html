@@ -1,12 +1,17 @@
 {% extends 'accueil.html' %}
 {% block title %}Choix du Quiz{% endblock %}
 {% block content %}
-<h2>Choisissez un quiz</h2>
-<ul>
-  {% for quizz in quizzes %}
-  <li>
-    <a href="{{ url_for('play', quizz_id=quizz.id) }}">{{ quizz.name }} ({{ quizz.category.value }})</a>
-  </li>
-  {% endfor %}
-</ul>
+  <h2>Choisissez un quiz</h2>
+  <ul>
+    {% for quizz in quizzes %}
+      <li>
+        <!-- Utilisez bien la route "jeu" et l'attribut id_quizz -->
+        <a href="{{ url_for('jeu', quizz_id=quizz.id_quizz) }}">
+          {{ quizz.name }} ({{ quizz.category }})
+        </a>
+      </li>
+    {% else %}
+      <li>Aucun quiz disponible.</li>
+    {% endfor %}
+  </ul>
 {% endblock %}
