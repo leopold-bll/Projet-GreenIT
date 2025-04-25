@@ -7,12 +7,10 @@ DROP TABLE if exists users;
 DROP TABLE if exists admins;
 DROP TABLE if exists quizz;
 DROP TABLE if exists question;
-DROP TABLE if exists category;
 SET FOREIGN_KEY_CHECKS=1;
 
 CREATE TABLE `users` (
   `id_user`   INT AUTO_INCREMENT PRIMARY KEY,
-  `name`      VARCHAR(100)    NOT NULL,
   `username`  VARCHAR(50)     NOT NULL UNIQUE,
   `email`     VARCHAR(100)    NOT NULL UNIQUE,
   `password`  VARCHAR(255)    NOT NULL,
@@ -36,6 +34,7 @@ CREATE TABLE `question` (
   `question`    TEXT          NOT NULL,
   `answer1`     VARCHAR(255)  NOT NULL,
   `answer2`     VARCHAR(255)  NOT NULL,
+  correct_answer_is_1 BOOL NOT NULL,
   FOREIGN KEY (`quizz_id`) REFERENCES `quizz`(`id_quizz`) ON DELETE CASCADE
 );
 
