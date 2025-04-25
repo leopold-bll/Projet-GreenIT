@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}Quiz GreenIT{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
   <nav>
     <a href="{{ url_for('accueil') }}">Accueil</a>
     {% if current_user.is_authenticated %}
-      <a href="{{ url_for('quizz') }}">Quiz</a>
-      <a href="{{ url_for('profile') }}">Profil</a>
-      <a href="{{ url_for('logout') }}">Déconnexion</a>
+    <a href="{{ url_for('quizz') }}">Quiz</a>
+    <a href="{{ url_for('profile') }}">Profil</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
     {% else %}
-      <a href="{{ url_for('login') }}">Connexion</a>
-      <a href="{{ url_for('register') }}">Inscription</a>
+    <a href="{{ url_for('login') }}">Connexion</a>
+    <a href="{{ url_for('register') }}">Inscription</a>
     {% endif %}
   </nav>
   <div class="container">
     {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="flash {{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
   </div>
+
+  <footer>
+    <p> &copy; 2023 Projet GreunRunner. Tous droits réservés.</p>
+  </footer>
 </body>
+
 </html>
