@@ -31,6 +31,9 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(255), nullable=False)
     score = db.Column(db.Integer, nullable=False, default=0)
 
+    def get_id(self):
+        return str(self.id_user)
+
 class Admin(db.Model):
     __tablename__ = 'admins'
     id_user = db.Column(db.Integer, db.ForeignKey('users.id_user'), primary_key=True)
@@ -83,8 +86,11 @@ def jeu(quizz_id):
     return render_template('jeu.html', quizz=quizz)
 
 @app.route('/profile')
+@login_required
 def profile():
-    return render_template('profile.html')
+    # current_user est déjà l'utilisateur connecté grâce à Flask-Login
+    return render_template('profile.html', user=current_user)
+
 
 @app.route('/quizz')
 def quizz():
@@ -108,11 +114,9 @@ def login():
         # Logique de connexion
         username = request.form['username']
         password = request.form['password']
-        #passwordH = sha256(password.encode("utf-8"))
-        #print("DEBUG-MAX : ", str(passwordH))
-        #passwordH = generate_password_hash(password, method='sha256')
+        passwordH = (sha256(password.encode("utf-8"))).hexdigest()
         user = User.query.filter_by(username=username).first()
-        if user and """user.password == passwordH""":
+        if user and user.password == passwordH:
             login_user(user)
             return redirect(url_for('accueil'))
         else:
@@ -125,14 +129,24 @@ def logout():
     logout_user()
     return redirect(url_for('accueil'))
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Logique d'enregistrement
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        hashed_password = generate_password_hash(password, method='sha256')
+
+        # Vérifiez si le nom d'utilisateur ou l'email existe déjà
+        if User.query.filter_by(username=username).first():
+            flash('Ce nom d\'utilisateur est déjà pris.')
+            return render_template('register.html')
+        if User.query.filter_by(email=email).first():
+            flash('Cette adresse e-mail est déjà utilisée.')
+            return render_template('register.html')
+
+        # Hacher le mot de passe
+        hashed_password = (sha256(password.encode("utf-8"))).hexdigest()
         new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
@@ -140,9 +154,12 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html')
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
 
 
 
