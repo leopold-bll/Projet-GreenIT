@@ -9,10 +9,13 @@ app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/bdd-green'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+
+#config pour login
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
-sess.init_app(app)
+#sess.init_app(app)
+db = SQLAlchemy(app)
+
 
 #config flask_login
 login_manager = LoginManager()
