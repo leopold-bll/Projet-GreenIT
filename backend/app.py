@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import flash, redirect, url_for
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
+from hashlib import sha256
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
@@ -21,7 +21,6 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
 
 # Définir les modèles SQLAlchemy
 class User(UserMixin, db.Model):
@@ -72,7 +71,8 @@ def profile():
 
 @app.route('/quizz')
 def quizz():
-    return render_template('quizz.html')
+    quizzes = Quizz.query.all()
+    return render_template('quizz.html', quizzes=quizzes)
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -90,8 +90,11 @@ def login():
         # Logique de connexion
         username = request.form['username']
         password = request.form['password']
+        #passwordH = sha256(password.encode("utf-8"))
+        #print("DEBUG-MAX : ", str(passwordH))
+        #passwordH = generate_password_hash(password, method='sha256')
         user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
+        if user and """user.password == passwordH""":
             login_user(user)
             return redirect(url_for('accueil'))
         else:
