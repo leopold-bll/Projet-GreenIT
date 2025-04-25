@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ quizz.name }}{% endblock %}
+{% block content %}
+  <h2>{{ quizz.name }} ({{ quizz.category.value }})</h2>
+  <canvas id="gameCanvas" width="800" height="400"></canvas>
+  <script src="{{ url_for('static', filename='js/quizz.js') }}"></script>
+  <script>
+    const questions = JSON.parse('{{ questions|tojson|escapejs }}');
+    startGame(questions);
+  </script>
