@@ -111,20 +111,31 @@ def logout():
     logout_user()
     return redirect(url_for('accueil'))
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Logique d'enregistrement
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        hashed_password = generate_password_hash(password, method='sha256')
+
+        # Vérifiez si le nom d'utilisateur ou l'email existe déjà
+        if User.query.filter_by(username=username).first():
+            flash('Ce nom d\'utilisateur est déjà pris.')
+            return render_template('register.html')
+        if User.query.filter_by(email=email).first():
+            flash('Cette adresse e-mail est déjà utilisée.')
+            return render_template('register.html')
+
+        # Hacher le mot de passe
+        hashed_password = (sha256(password.encode("utf-8"))).hexdigest()
         new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         flash('Inscription réussie ! Vous pouvez maintenant vous connecter.')
         return redirect(url_for('login'))
     return render_template('register.html')
+
 
 @login_manager.user_loader
 def load_user(user_id):
