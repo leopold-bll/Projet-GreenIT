@@ -30,6 +30,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     score = db.Column(db.Integer, nullable=False, default=0)
+    
+    def get_id(self):
+        return str(self.id_user)
 
 class Admin(db.Model):
     __tablename__ = 'admins'
@@ -90,11 +93,9 @@ def login():
         # Logique de connexion
         username = request.form['username']
         password = request.form['password']
-        #passwordH = sha256(password.encode("utf-8"))
-        #print("DEBUG-MAX : ", str(passwordH))
-        #passwordH = generate_password_hash(password, method='sha256')
+        passwordH = (sha256(password.encode("utf-8"))).hexdigest()
         user = User.query.filter_by(username=username).first()
-        if user and """user.password == passwordH""":
+        if user and user.password == passwordH:
             login_user(user)
             return redirect(url_for('accueil'))
         else:
@@ -125,6 +126,8 @@ def register():
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
 
 
 
