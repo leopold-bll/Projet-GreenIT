@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Choix du Quiz{% endblock %}
+{% block content %}
+  <h2>Choisissez un quiz</h2>
+  <ul>
+    {% for quizz in quizzes %}
+      <li>
+        <a href="{{ url_for('play', quizz_id=quizz.id) }}">{{ quizz.name }} ({{ quizz.category.value }})</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
