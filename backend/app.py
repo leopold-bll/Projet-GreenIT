@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     score = db.Column(db.Integer, nullable=False, default=0)
-    
+
     def get_id(self):
         return str(self.id_user)
 
@@ -69,8 +69,11 @@ def jeu():
     return render_template('jeu.html')
 
 @app.route('/profile')
+@login_required
 def profile():
-    return render_template('profile.html')
+    # current_user est déjà l'utilisateur connecté grâce à Flask-Login
+    return render_template('profile.html', user=current_user)
+
 
 @app.route('/quizz')
 def quizz():
