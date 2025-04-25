@@ -7,10 +7,10 @@ DELETE FROM question;
 
 
 -- Utilisateurs
-INSERT INTO `users` (id_user, `name`,`username`,`email`,`password`,`score`) VALUES
-  (1, 'Alice Dupont',  'alice',  'alice@example.com',  SHA2('passAlice',256),  0),
-  (2, 'Bob Martin',    'bmartin','bob@example.com',    SHA2('passBob',256),    0),
-  (3, 'Charlie Admin', 'charlie','admin@example.com',  SHA2('passAdmin',256),  0);
+INSERT INTO `users` (id_user, `username`,`email`,`password`,`score`) VALUES
+  (1, 'alice',  'alice@example.com',  SHA2('passAlice',256),  0),
+  (2, 'bob','bob@example.com',    SHA2('passBob',256),    0),
+  (3, 'admin','admin@example.com',  SHA2('passAdmin',256),  0);
 
 
 -- Charlie devient admin
