@@ -1,15 +1,27 @@
 from flask import Flask, request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import flash, redirect, url_for
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/bdd-green'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+app.secret_key = 'super secret key'
+app.config['SESSION_TYPE'] = 'filesystem'
+sess.init_app(app)
+
+#config flask_login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
 
 # Définir les modèles SQLAlchemy
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id_user = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -69,14 +81,46 @@ def get_quizzes():
     quizzes = Quizz.query.all()
     return jsonify([{'id': quiz.id_quizz, 'name': quiz.name, 'category': quiz.category} for quiz in quizzes])
 
-@app.route('/register', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # Logique de connexion
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('accueil'))
+        else:
+            flash('Identifiants invalides.')
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('accueil'))
+
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    data = request.get_json()
-    hashed_password = generate_password_hash(data['password'], method='sha256')
-    new_user = User(username=data['username'], email=data['email'], password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({'message': 'New user created!'})
+    if request.method == 'POST':
+        # Logique d'enregistrement
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        hashed_password = generate_password_hash(password, method='sha256')
+        new_user = User(username=username, email=email, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Inscription réussie ! Vous pouvez maintenant vous connecter.')
+        return redirect(url_for('login'))
+    return render_template('register.html')
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
