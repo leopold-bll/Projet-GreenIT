@@ -18,17 +18,16 @@
     <a href="{{ url_for('login') }}">Connexion</a>
     <a href="{{ url_for('register') }}">Inscription</a>
     {% endif %}
-    <a href="{{ url_for('classement') }}">Classement</a>
   </nav>
   <div class="container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="flash {{ category }}">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
+    <h1>Classement</h1>
+    <section class="classement-section">
+      <ol class="classement-liste">
+        {% for user in users %}
+        <li><strong>{{ user.username }}</strong>, score : {{ user.score }}</li>
+        {% endfor %}
+      </ol>
+    </section>
   </div>
 
   <footer>

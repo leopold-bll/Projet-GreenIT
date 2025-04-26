@@ -160,7 +160,10 @@ def register():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
+@app.route('/classement', methods=['GET'])
+def classement():
+    users = User.query.order_by(User.score.desc()).all()
+    return render_template('classement.html', users=users)
 
 
 
