@@ -1,10 +1,34 @@
-{% extends 'base.html' %}
-{% block title %}{{ quizz.name }}{% endblock %}
+{% extends 'accueil.html' %}
+{% block title %}Quiz : {{ quizz.name }}{% endblock %}
 {% block content %}
-  <h2>{{ quizz.name }} ({{ quizz.category.value }})</h2>
-  <canvas id="gameCanvas" width="800" height="400"></canvas>
-  <script src="{{ url_for('static', filename='js/quizz.js') }}"></script>
-  <script>
-    const questions = JSON.parse('{{ questions|tojson|escapejs }}');
-    startGame(questions);
-  </script>
+  <h2>{{ quizz.name }} ({{ quizz.category }})</h2>
+
+  {# Si on a un score, on affiche le résultat #}
+  {% if score is defined %}
+    <div class="result">
+      <p>Vous avez <strong>{{ score }}</strong> bonne(s) réponse(s) sur <strong>{{ total }}</strong>.</p>
+      <a href="{{ url_for('quizz') }}">Retour aux quiz</a>
+    </div>
+
+  {# Sinon on affiche le formulaire #}
+  {% else %}
+    <form method="post">
+      {% for q in quizz.questions %}
+        <div>
+          <p><strong>Question {{ loop.index }} :</strong> {{ q.question }}</p>
+          <label>
+            <input type="radio" name="q{{ q.id_question }}" value="1" required>
+            {{ q.answer1 }}
+          </label><br>
+          <label>
+            <input type="radio" name="q{{ q.id_question }}" value="2">
+            {{ q.answer2 }}
+          </label>
+        </div>
+        <hr>
+      {% endfor %}
+      <button type="submit">Valider</button>
+    </form>
+  {% endif %}
+{% endblock %}
+
