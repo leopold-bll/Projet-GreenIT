@@ -5,7 +5,7 @@
 <ul>
   {% for quizz in quizzes %}
   <li>
-    <a href="{{ url_for('play', quizz_id=quizz.id) }}">{{ quizz.name }} ({{ quizz.category.value }})</a>
+    <a href="{{ url_for('jeu', quizz_id=quizz.id) }}">{{ quizz.name }} ({{ quizz.category.value }})</a>
   </li>
   {% endfor %}
 </ul>
