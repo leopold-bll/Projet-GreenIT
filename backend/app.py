@@ -63,9 +63,26 @@ def accueil():
 def authentification():
     return render_template('authentification.html')
 
-@app.route('/jeu')
-def jeu():
-    return render_template('jeu.html')
+@app.route('/jeu/<int:quizz_id>', methods=['GET', 'POST'])
+def jeu(quizz_id):
+        # on récupère le quiz ou 404
+    quizz = Quizz.query.get_or_404(quizz_id)
+
+    if request.method == 'POST':
+        # (…votre logique de scoring…)
+        total = len(quizz.questions)
+        correct = 0
+        for q in quizz.questions:
+            choix = request.form.get(f"q{q.id_question}")
+            if (choix == '1' and q.correct_answer_is_1) or (choix == '2' and not q.correct_answer_is_1):
+                correct += 1
+        current_user.score += correct
+        db.session.commit()
+        # on renvoie le même template mais avec score et total
+        return render_template('jeu.html', quizz=quizz, score=correct, total=total)
+
+    # GET : on envoie juste le quiz pour affichage
+    return render_template('jeu.html', quizz=quizz)
 
 @app.route('/profile')
 @login_required
@@ -77,6 +94,7 @@ def profile():
 @app.route('/quizz')
 def quizz():
     quizzes = Quizz.query.all()
+    print("DEBUG – quizzes en base :", quizzes)
     return render_template('quizz.html', quizzes=quizzes)
 
 @app.route('/users', methods=['GET'])
@@ -140,7 +158,10 @@ def register():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
+@app.route('/classement', methods=['GET'])
+def classement():
+    users = User.query.order_by(User.score.desc()).all()
+    return render_template('classement.html', users=users)
 
 #pour l'ADMIN DASHBOARD
 @app.route('/admin-dashboard')

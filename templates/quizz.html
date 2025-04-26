@@ -5,8 +5,13 @@
 <ul>
   {% for quizz in quizzes %}
   <li>
-    <a href="{{ url_for('jeu', quizz_id=quizz.id) }}">{{ quizz.name }} ({{ quizz.category.value }})</a>
+    <!-- Utilisez bien la route "jeu" et l'attribut id_quizz -->
+    <a href="{{ url_for('jeu', quizz_id=quizz.id_quizz) }}">
+      {{ quizz.name }} ({{ quizz.category }})
+    </a>
   </li>
+  {% else %}
+  <li>Aucun quiz disponible.</li>
   {% endfor %}
 </ul>
 {% endblock %}
