@@ -54,3 +54,9 @@ footer {
   align-items: end;
   min-height: 50px;
 }
+
+
+#texte-accueil {
+  justify-self: center;
+  justify-items: center;
+}

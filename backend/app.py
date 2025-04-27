@@ -64,6 +64,7 @@ def authentification():
     return render_template('authentification.html')
 
 @app.route('/jeu/<int:quizz_id>', methods=['GET', 'POST'])
+@login_required
 def jeu(quizz_id):
         # on récupère le quiz ou 404
     quizz = Quizz.query.get_or_404(quizz_id)
