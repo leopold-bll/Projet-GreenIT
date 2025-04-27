@@ -20,7 +20,9 @@ Il propose deux quiz au choix (Green-IT ou IT for Green), avec un système de cl
 ## Technologies utilisées
 
 Frontend : HTML, CSS, JavaScript (sans framework)
+
 Backend : Python (Flask)
+
 Base de données : MySQL
 
 ---
