@@ -38,7 +38,7 @@
     {% else %}
     <form method="post">
       {% for q in quizz.questions %}
-      <div>
+      <div id="quiz-question">
         <p><strong>Question {{ loop.index }} :</strong> {{ q.question }}</p>
         <label>
           <input type="radio" name="q{{ q.id_question }}" value="1" required>
