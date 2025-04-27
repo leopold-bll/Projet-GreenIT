@@ -15,7 +15,7 @@
     <a href="{{ url_for('profile') }}">Profil</a>
     <a href="{{ url_for('logout') }}">Déconnexion</a>
     {% if current_user.admin %}
-    <a href="{{ url_for('admin_dashboard') }}">Tableau de Bord Admin</a>
+    <a href="{{ url_for('admin_dashboard') }}">Gestion-Admin</a>
     {% endif %}
     {% else %}
     <a href="{{ url_for('login') }}">Connexion</a>
