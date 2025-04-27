@@ -4,16 +4,36 @@ from werkzeug.security import generate_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from hashlib import sha256
 
-app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/bdd-green'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#en local : 
+#app = Flask(__name__, template_folder='../templates', static_folder='../static')
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/bdd-green'
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #config pour login
+#app.secret_key = 'super secret key'
+#app.config['SESSION_TYPE'] = 'filesystem'
+#sess.init_app(app)
+#db = SQLAlchemy(app)
+
+#hébergé
+import os
+
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
+
+# On utilise DATABASE_URL si défini (par Render), sinon on retombe sur ta base locale 'bdd-green'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL',
+    'mysql+pymysql://root:root@localhost/bdd-green'
+)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# config pour login
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
-#sess.init_app(app)
+
 db = SQLAlchemy(app)
+
 
 
 #config flask_login
