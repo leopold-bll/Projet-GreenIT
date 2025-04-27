@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from hashlib import sha256
+from codecarbon import EmissionsTracker
+
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
@@ -20,6 +22,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
 
 # Définir les modèles SQLAlchemy
 class User(UserMixin, db.Model):
@@ -66,7 +69,11 @@ def authentification():
 @app.route('/jeu/<int:quizz_id>', methods=['GET', 'POST'])
 @login_required
 def jeu(quizz_id):
-        # on récupère le quiz ou 404
+    # Créer un tracker pour mesurer les émissions de CO2
+    tracker = EmissionsTracker()  # Indiquer le code du pays pour la précision
+    tracker.start()
+
+    # On récupère le quiz ou 404
     quizz = Quizz.query.get_or_404(quizz_id)
 
     if request.method == 'POST':
@@ -79,8 +86,23 @@ def jeu(quizz_id):
                 correct += 1
         current_user.score += correct
         db.session.commit()
+
+        # Arrêter le suivi des émissions après le calcul
+        tracker.stop()
+
         # on renvoie le même template mais avec score et total
-        return render_template('jeu.html', quizz=quizz, score=correct, total=total)
+        try:
+            emissions = tracker.final_emissions_data  # On récupère les données des émissions
+            # Vérification si les émissions sont correctes
+            if not emissions:
+                emissions = "Aucune donnée sur les émissions disponible"
+            else:
+                print(f"Emissions CO2 pour ce calcul: {emissions}")
+        except Exception as e:
+            emissions = f"Erreur lors du calcul des émissions: {str(e)}"
+            print(f"Erreur: {e}") # Affichage des émissions dans la console
+
+        return render_template('jeu.html', quizz=quizz, score=correct, total=total, emissions=emissions)
 
     # GET : on envoie juste le quiz pour affichage
     return render_template('jeu.html', quizz=quizz)
