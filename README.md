@@ -63,20 +63,20 @@ Nous encourageons toute contribution respectant les règles suivantes :
 
 1. Convention de nommage des commits :
 
-feat: pour une nouvelle fonctionnalité
-fix: pour une correction de bug
-docs: pour la documentation
-style: pour des changements de style (indentations, etc.)
-refactor: pour des changements de structure de code sans changement de fonctionnalités
-perf: pour des améliorations de performance
-test: pour des ajouts de tests
-chore: pour des tâches de maintenance
+feat: pour une nouvelle fonctionnalité  
+fix: pour une correction de bug  
+docs: pour la documentation  
+style: pour des changements de style (indentations, etc.)  
+refactor: pour des changements de structure de code sans changement de fonctionnalités  
+perf: pour des améliorations de performance  
+test: pour des ajouts de tests  
+chore: pour des tâches de maintenance  
 
 
 2. Workflow de contribution :
 
-Forker le projet
-Créer une branche dédiée :
-git checkout -b feat/ma-nouvelle-fonctionnalite
-Faire vos modifications
-Faire une pull request
+Forker le projet  
+Créer une branche dédiée :  
+git checkout -b feat/ma-nouvelle-fonctionnalite  
+Faire vos modifications  
+Faire une pull request  
