@@ -74,6 +74,12 @@ class Question(db.Model):
     correct_answer_is_1 = db.Column(db.Boolean, nullable=False)
     quizz = db.relationship('Quizz', backref=db.backref('questions', lazy=True))
 
+
+# Au tout premier appel (GET, POST, …) de l’app, crée le schéma si besoin
+@app.before_first_request
+def init_db():
+    db.create_all()
+
 # Routes de base
 @app.route('/')
 def accueil():
