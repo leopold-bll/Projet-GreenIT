@@ -2,10 +2,13 @@ import os
 from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_login import (
+    LoginManager, UserMixin, login_user, login_required,
+    logout_user, current_user
+)
 
 # -----------------------------------------------------------------------------
-# Application factory / Configuration
+# App Configuration
 # -----------------------------------------------------------------------------
 app = Flask(
     __name__,
@@ -13,18 +16,18 @@ app = Flask(
     static_folder='../static'
 )
 
-# Lecture de la BDD depuis l'env (Render) ou fallback local MySQL
+# Database URI: use Render’s DATABASE_URL in prod, fallback to local MySQL
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL',
     'mysql+pymysql://root:root@localhost/bdd-green'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Secret key depuis l'env ou fallback
+# Secret key from env (Render) or dev fallback
 app.secret_key = os.environ.get('SECRET_KEY', 'dev-fallback-key')
 
 # -----------------------------------------------------------------------------
-# Extensions
+# Extensions Initialization
 # -----------------------------------------------------------------------------
 db = SQLAlchemy(app)
 
@@ -32,7 +35,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 # -----------------------------------------------------------------------------
-# Modèles
+# Models
 # -----------------------------------------------------------------------------
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -58,7 +61,7 @@ class Quizz(db.Model):
     __tablename__ = 'quizz'
     id_quizz = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name     = db.Column(db.String(100), nullable=False)
-    # Enum renommé pour PostgreSQL
+    # Named enum for Postgres compatibility
     category = db.Column(
         db.Enum('IT For Green', 'GreenIT', name='quiz_category_enum'),
         nullable=False
@@ -66,28 +69,29 @@ class Quizz(db.Model):
 
 class Question(db.Model):
     __tablename__ = 'question'
-    id_question            = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    quizz_id               = db.Column(db.Integer, db.ForeignKey('quizz.id_quizz'), nullable=False)
-    question               = db.Column(db.Text,    nullable=False)
-    answer1                = db.Column(db.String(255), nullable=False)
-    answer2                = db.Column(db.String(255), nullable=False)
-    correct_answer_is_1    = db.Column(db.Boolean, nullable=False)
-    quizz                  = db.relationship('Quizz', backref=db.backref('questions', lazy=True))
+    id_question         = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    quizz_id            = db.Column(db.Integer, db.ForeignKey('quizz.id_quizz'), nullable=False)
+    question            = db.Column(db.Text,    nullable=False)
+    answer1             = db.Column(db.String(255), nullable=False)
+    answer2             = db.Column(db.String(255), nullable=False)
+    correct_answer_is_1 = db.Column(db.Boolean, nullable=False)
+    quizz               = db.relationship('Quizz', backref=db.backref('questions', lazy=True))
 
-# Crée le schéma au premier appel si nécessaire
-@app.before_first_request
-def init_db():
+# -----------------------------------------------------------------------------
+# Ensure tables exist at startup
+# -----------------------------------------------------------------------------
+with app.app_context():
     db.create_all()
 
 # -----------------------------------------------------------------------------
-# Flask-Login
+# Flask-Login user loader
 # -----------------------------------------------------------------------------
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 # -----------------------------------------------------------------------------
-# Routes publiques
+# Routes
 # -----------------------------------------------------------------------------
 @app.route('/')
 def accueil():
@@ -111,11 +115,10 @@ def register():
         username = request.form['username']
         email    = request.form['email']
         pwd      = request.form['password']
-
+        # Unique checks
         if User.query.filter((User.username==username)|(User.email==email)).first():
             flash('Nom d’utilisateur ou email déjà utilisé.', 'error')
             return render_template('register.html')
-
         hashed = generate_password_hash(pwd, method='sha256')
         db.session.add(User(username=username, email=email, password=hashed))
         db.session.commit()
@@ -129,9 +132,6 @@ def logout():
     logout_user()
     return redirect(url_for('accueil'))
 
-# -----------------------------------------------------------------------------
-# Quiz & jeu
-# -----------------------------------------------------------------------------
 @app.route('/quizz')
 @login_required
 def quizz():
@@ -147,16 +147,13 @@ def jeu(quizz_id):
         correct = 0
         for q in quizz.questions:
             choix = request.form.get(f"q{q.id_question}")
-            if (choix=='1' and q.correct_answer_is_1) or (choix=='2' and not q.correct_answer_is_1):
+            if (choix == '1' and q.correct_answer_is_1) or (choix == '2' and not q.correct_answer_is_1):
                 correct += 1
         current_user.score += correct
         db.session.commit()
         return render_template('jeu.html', quizz=quizz, score=correct, total=total)
     return render_template('jeu.html', quizz=quizz)
 
-# -----------------------------------------------------------------------------
-# Profil & admin
-# -----------------------------------------------------------------------------
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
@@ -169,15 +166,9 @@ def profile():
         db.session.commit()
         flash('Profil mis à jour !', 'success')
         return redirect(url_for('profile'))
-
-    users = []
-    if current_user.is_admin:
-        users = User.query.all()
+    users = current_user.is_admin and User.query.all() or []
     return render_template('profile.html', user=current_user, users=users)
 
-# -----------------------------------------------------------------------------
-# Admin Dashboard
-# -----------------------------------------------------------------------------
 @app.route('/admin-dashboard')
 @login_required
 def admin_dashboard():
@@ -193,14 +184,12 @@ def create_user():
     if not current_user.is_admin:
         flash('Accès non autorisé.', 'error')
         return redirect(url_for('admin_dashboard'))
-
     username = request.form['username']
     email    = request.form['email']
     pwd      = request.form['password']
     if User.query.filter((User.username==username)|(User.email==email)).first():
         flash('Nom d’utilisateur ou email déjà utilisé.', 'error')
         return redirect(url_for('admin_dashboard'))
-
     hashed = generate_password_hash(pwd, method='sha256')
     db.session.add(User(username=username, email=email, password=hashed))
     db.session.commit()
@@ -238,16 +227,13 @@ def delete_user(user_id):
         flash('Utilisateur supprimé.', 'success')
     return redirect(url_for('admin_dashboard'))
 
-# -----------------------------------------------------------------------------
-# Classement
-# -----------------------------------------------------------------------------
 @app.route('/classement')
 def classement():
     users = User.query.order_by(User.score.desc()).all()
     return render_template('classement.html', users=users)
 
 # -----------------------------------------------------------------------------
-# Lancement
+# Run
 # -----------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run(debug=True)
