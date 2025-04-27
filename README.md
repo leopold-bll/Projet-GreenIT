@@ -1,14 +1,14 @@
-#GreunRunner
+# GreunRunner
 
 Projet de sensibilisation au Green-IT et IT for Green sous forme de quiz compétitif.
 Développé dans le cadre du projet Green-IT par Harone Chitam, Léopold Billecocq, Ashraf Ait Abbas et Max Bortolotti.
 
-##Description
+## Description
 
 GreunRunner est un site web léger conçu pour minimiser son empreinte environnementale.
 Il propose deux quiz au choix (Green-IT ou IT for Green), avec un système de classement basé sur les scores obtenus.
 
-##Fonctionnalités
+## Fonctionnalités
 
 - Création et connexion à un compte utilisateur
 - Sélection entre deux types de quiz
@@ -17,7 +17,7 @@ Il propose deux quiz au choix (Green-IT ou IT for Green), avec un système de cl
 - Interface sobre et éco-conçue (sans images ni vidéos)
 - Dashboard CRUD pour les utilisateurs admin
 
-##Technologies utilisées
+## Technologies utilisées
 
 Frontend : HTML, CSS, JavaScript (sans framework)
 Backend : Python (Flask)
@@ -25,7 +25,7 @@ Base de données : MySQL
 
 ---
 
-##Instructions pour cloner, configurer et exécuter le projet
+## Instructions pour cloner, configurer et exécuter le projet
 
 1. Cloner le projet :
 
@@ -55,7 +55,7 @@ Ouvrir votre navigateur et aller sur http://127.0.0.1:5000
 
 ---
 
-##Contribuer au projet
+## Contribuer au projet
 
 Nous encourageons toute contribution respectant les règles suivantes :
 
