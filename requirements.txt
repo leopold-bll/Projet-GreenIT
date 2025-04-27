@@ -1,0 +1,5 @@
+Flask
+gunicorn
+flask_sqlalchemy
+pymysql        # ou psycopg2-binary si tu passes à PostgreSQL
+flask_login

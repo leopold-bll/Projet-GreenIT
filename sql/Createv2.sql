@@ -1,5 +1,5 @@
-CREATE SCHEMA IF NOT EXISTS `bdd-green`;
-USE `bdd-green`;
+CREATE SCHEMA IF NOT EXISTS `bddgreen`;
+USE `bddgreen`;
 
 
 
@@ -38,5 +38,6 @@ CREATE TABLE `question` (
   correct_answer_is_1 BOOL NOT NULL,
   FOREIGN KEY (`quizz_id`) REFERENCES `quizz`(`id_quizz`) ON DELETE CASCADE
 );
+
 
 
