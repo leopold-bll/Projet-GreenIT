@@ -24,13 +24,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Secret key from env (Render) or dev fallback
-app.secret_key = os.environ.get('SECRET_KEY', 'dev-fallback-key')
+app.secret_key = os.environ.get('SECRET_KEY', 'super secret key')
 
 # -----------------------------------------------------------------------------
 # Extensions Initialization
 # -----------------------------------------------------------------------------
 db = SQLAlchemy(app)
-
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -61,7 +60,7 @@ class Quizz(db.Model):
     __tablename__ = 'quizz'
     id_quizz = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name     = db.Column(db.String(100), nullable=False)
-    # Named enum for Postgres compatibility
+    # Named enum for PostgreSQL compatibility
     category = db.Column(
         db.Enum('IT For Green', 'GreenIT', name='quiz_category_enum'),
         nullable=False
