@@ -20,6 +20,20 @@
     {% endif %}
     <a href="{{ url_for('classement') }}">Classement</a>
   </nav>
+
+
+  <div id="texte-accueil" class="container">
+    <h1>Bienvenue sur notre site : GreunRunner</h1>
+    <br><br>
+    <p>Sur celui-ci, vous pouvez concourir avec d'autres utilisateurs, en cherchant à avoir le meilleur score à travers
+      des quizz de Green-IT et de IT For Green.</p>
+    <br>
+    <p><strong>Bon jeu !</strong></p>
+    <br><br>
+    <p>Ce site a été crée par Harone Chitam, Léopold Billecocq, Ashraf Ait Abbas et Max Bortolotti.</p>
+    <br>
+  </div>
+
   <div class="container">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -30,6 +44,8 @@
     {% endwith %}
     {% block content %}{% endblock %}
   </div>
+
+
 
   <footer>
     <p> &copy; 2025 Projet GreunRunner. Tous droits réservés.</p>
