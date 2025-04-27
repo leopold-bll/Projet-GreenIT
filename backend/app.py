@@ -1,7 +1,6 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask import flash, redirect, url_for
+from werkzeug.security import generate_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from hashlib import sha256
 
@@ -65,6 +64,7 @@ def authentification():
     return render_template('authentification.html')
 
 @app.route('/jeu/<int:quizz_id>', methods=['GET', 'POST'])
+@login_required
 def jeu(quizz_id):
         # on récupère le quiz ou 404
     quizz = Quizz.query.get_or_404(quizz_id)
@@ -163,6 +163,70 @@ def load_user(user_id):
 def classement():
     users = User.query.order_by(User.score.desc()).all()
     return render_template('classement.html', users=users)
+
+#pour l'ADMIN DASHBOARD
+@app.route('/admin-dashboard')
+@login_required
+def admin_dashboard():
+    # Vérifiez si l'utilisateur actuel est un admin
+    if not current_user.admin:
+        flash('Accès non autorisé.')
+        return redirect(url_for('accueil'))
+
+    users = User.query.all()
+    return render_template('dashboard-admin.html', users=users)
+
+@app.route('/admin/create-user', methods=['POST'])
+@login_required
+def create_user():
+    if not current_user.admin:
+        flash('Accès non autorisé.')
+        return redirect(url_for('accueil'))
+
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+
+    if User.query.filter_by(username=username).first() or User.query.filter_by(email=email).first():
+        flash('Nom d\'utilisateur ou email déjà utilisé.')
+        return redirect(url_for('admin_dashboard'))
+
+    hashed_password = (sha256(password.encode("utf-8"))).hexdigest()
+    new_user = User(username=username, email=email, password=hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
+    flash('Utilisateur créé avec succès.')
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin/update-user/<int:user_id>', methods=['POST'])
+@login_required
+def update_user(user_id):
+    if not current_user.admin:
+        flash('Accès non autorisé.')
+        return redirect(url_for('accueil'))
+
+    user = User.query.get_or_404(user_id)
+    user.username = request.form['username']
+    user.email = request.form['email']
+    if request.form['password']:
+        user.password = (sha256(request.form['password'].encode("utf-8"))).hexdigest()
+    db.session.commit()
+    flash('Utilisateur mis à jour avec succès.')
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin/delete-user/<int:user_id>', methods=['POST'])
+@login_required
+def delete_user(user_id):
+    if not current_user.admin:
+        flash('Accès non autorisé.')
+        return redirect(url_for('accueil'))
+
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash('Utilisateur supprimé avec succès.')
+    return redirect(url_for('admin_dashboard'))
+
 
 
 
