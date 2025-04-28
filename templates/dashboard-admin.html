@@ -39,7 +39,7 @@
         <label for="new-password">Mot de passe :</label>
         <input type="password" id="new-password" name="password" required>
       </div>
-      <button type="submit">Créer</button>
+      <button type="submit" id="admin-create">Créer</button>
     </form>
 
     <!-- Liste des utilisateurs -->
@@ -53,7 +53,7 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="">
         {% for user in users %}
         <tr>
           <td>{{ user.id_user }}</td>
@@ -65,13 +65,18 @@
               <input type="text" name="username" value="{{ user.username }}" required>
               <input type="email" name="email" value="{{ user.email }}" required>
               <input type="password" name="password" placeholder="Nouveau mot de passe">
-              <button type="submit">Mettre à jour</button>
+          </td>
+          <td>
+            <button type="submit">Mettre à jour</button>
+          </td>
+          <td>
             </form>
             <!-- Formulaire pour supprimer un utilisateur -->
             <form method="POST" action="{{ url_for('delete_user', user_id=user.id_user) }}" style="display:inline;">
               <button type="submit">Supprimer</button>
             </form>
           </td>
+
         </tr>
         {% endfor %}
       </tbody>

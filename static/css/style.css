@@ -302,3 +302,7 @@ footer {
   font-size: 0.9em;
   margin-top: 1em;
 }
+
+#admin-create {
+  width: 20vw;
+}
