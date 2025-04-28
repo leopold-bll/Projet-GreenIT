@@ -6,7 +6,7 @@ from hashlib import sha256
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://avnadmin:AVNS_xROJtELrJX05_lje63N@bdd-green-efrei-89cc.c.aivencloud.com:14637/defaultdb?ssl-mode=REQUIRED'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/bdd-green'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #config pour login
