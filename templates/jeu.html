@@ -31,7 +31,8 @@
     {% if score is defined %}
     <div class="result">
       <p>Vous avez <strong>{{ score }}</strong> bonne(s) réponse(s) sur <strong>{{ total }}</strong>.</p>
-      <a href="{{ url_for('quizz') }}">Retour aux quiz</a>
+      <a id="back-to-quizzes" href="{{ url_for('quizz') }}">Retour aux quiz</a>
+
     </div>
 
     {# Sinon on affiche le formulaire #}
@@ -49,7 +50,6 @@
           {{ q.answer2 }}
         </label>
       </div>
-      <hr>
       {% endfor %}
       <button id="validate-button" type="submit">Valider</button>
     </form>
