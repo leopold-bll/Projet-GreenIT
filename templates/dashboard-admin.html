@@ -24,7 +24,7 @@
     {% endif %}
     {% endwith %}
 
-    <!-- Formulaire pour créer un nouvel utilisateur -->
+
     <div id="login-page">
       <h3>Créer un nouvel utilisateur</h3>
       <form method="POST" action="{{ url_for('create_user') }}">
@@ -44,9 +44,7 @@
           <button type="submit">Créer</button>
         </div>
       </form>
-    </div>
-
-    <!-- Liste des utilisateurs -->
+    </div> <!-- Liste des utilisateurs -->
     <h3>Utilisateurs Inscrits</h3>
     <table>
       <thead>
@@ -57,7 +55,7 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="">
         {% for user in users %}
         <tr>
           <td>{{ user.id_user }}</td>
@@ -69,13 +67,18 @@
               <input type="text" name="username" value="{{ user.username }}" required>
               <input type="email" name="email" value="{{ user.email }}" required>
               <input type="password" name="password" placeholder="Nouveau mot de passe">
-              <button type="submit">Mettre à jour</button>
+          </td>
+          <td>
+            <button type="submit">Mettre à jour</button>
+          </td>
+          <td>
             </form>
             <!-- Formulaire pour supprimer un utilisateur -->
             <form method="POST" action="{{ url_for('delete_user', user_id=user.id_user) }}" style="display:inline;">
               <button type="submit">Supprimer</button>
             </form>
           </td>
+
         </tr>
         {% endfor %}
       </tbody>
