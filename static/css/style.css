@@ -244,7 +244,7 @@ button {
   cursor: pointer;
   margin-top: 20px;
   display: block;
-  width: 100%;
+  width: 100;
   text-align: center;
 }
 
@@ -301,4 +301,8 @@ footer {
   justify-content: space-between;
   font-size: 0.9em;
   margin-top: 1em;
+}
+
+#admin-create {
+  width: 20vw;
 }

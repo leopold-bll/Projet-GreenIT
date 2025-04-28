@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         isLocked = false;
     };
+    const validateButton = document.getElementById('validate-button');
+
 
     const moveCharacter = (direction, index) => {
         if (isLocked) return;
@@ -38,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentQuestionIndex++;
                 showQuestion(currentQuestionIndex);
             } else {
-                form.submit(); // Envoie normal
+                validateButton.style.display = 'block';
             }
         }, 1000);
     };
