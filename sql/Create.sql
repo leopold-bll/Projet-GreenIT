@@ -2,6 +2,7 @@ CREATE SCHEMA IF NOT EXISTS `bdd-green`;
 USE `bdd-green`;
 
 
+
 SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE if exists users;
 DROP TABLE if exists admins;
