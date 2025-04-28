@@ -230,3 +230,75 @@ footer {
   background-color: #ffe0e0;
   color: #a94442;
 }
+
+
+/*test runner*/
+
+button {
+  background-color: #2c3e50;
+  color: white;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #1a252f;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.quiz-question {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  font-size: 18px;
+  width: 80%;
+  max-width: 600px;
+}
+
+.answer-area {
+  position: relative;
+  width: 700px;
+  /* Largeur de la zone de réponse */
+  height: 100px;
+  margin: 1em auto;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+}
+
+.character {
+  margin-top: 10px;
+  width: 70px;
+  height: 70px;
+  background-image: url(../sprite/hero.png);
+  background-size: 70px;
+  position: absolute;
+  top: 50%;
+  /* Centrer verticalement */
+  left: 50%;
+  /* Centrer horizontalement */
+  transform: translate(-50%, -50%);
+  /* Centrer le personnage */
+  transition: left 0.1s linear;
+  z-index: 10;
+}
+
+
+.labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  margin-top: 1em;
+}
