@@ -25,37 +25,43 @@
   <div class="container">
     {% block content %}
     <h2>{{ quizz.name }} ({{ quizz.category }})</h2>
-
+  
     {% if score is defined %}
-    <div class="result">
-      <p>Vous avez <strong>{{ score }}</strong> bonne(s) réponse(s) sur <strong>{{ total }}</strong>.</p>
-      <a id="back-to-quizzes" href="{{ url_for('quizz') }}">Retour aux quiz</a>
-    </div>
+      <div class="result">
+        <p>Vous avez <strong>{{ score }}</strong> bonne(s) réponse(s) sur <strong>{{ total }}</strong>.</p>
+        <a id="back-to-quizzes" href="{{ url_for('quizz') }}">Retour aux quiz</a>
+      </div>
     {% else %}
-    <form method="post" id="quiz-form">
-      {% for q in quizz.questions %}
-      <fieldset id="quiz-question-{{ q.id_question }}" class="quiz-question">
-        <legend><strong>Question {{ loop.index }} :</strong> {{ q.question }}</legend>
-
-        <div class="answer-area">
-          <div id="character-{{ q.id_question }}" class="character">
-
-          </div>
-          <div class="labels">
-            <span>← {{ q.answer1 }}</span>
-            <span>{{ q.answer2 }} →</span>
-          </div>
-        </div>
-
-        <input type="hidden" name="q{{ q.id_question }}" id="answer-{{ q.id_question }}" required>
-      </fieldset>
-      {% endfor %}
-
-      <button type="submit" id="validate-button" style="display: none;">Valider</button>
-    </form>
+      <form method="post" id="quiz-form">
+        {% for q in quizz.questions %}
+          <fieldset id="quiz-question-{{ q.id_question }}" class="quiz-question">
+            <legend><strong>Question {{ loop.index }} :</strong> {{ q.question }}</legend>
+  
+            <div class="answer-area">
+              <!-- Réponse à gauche -->
+              <div class="left-answer">
+                <div class="answer" data-answer="1">{{ q.answer1 }}</div>
+              </div>
+  
+              <!-- Personnage ou autre contenu -->
+              <div id="character-{{ q.id_question }}" class="character"></div>
+  
+              <!-- Réponse à droite -->
+              <div class="right-answer">
+                <div class="answer" data-answer="2">{{ q.answer2 }}</div>
+              </div>
+            </div>
+  
+            <input type="hidden" name="q{{ q.id_question }}" id="answer-{{ q.id_question }}" required>
+          </fieldset>
+        {% endfor %}
+  
+        <button type="submit" id="validate-button" style="display: none;">Valider</button>
+      </form>
     {% endif %}
     {% endblock %}
   </div>
+  
 
   <footer>
     <p>&copy; 2025 Projet GreunRunner. Tous droits réservés.</p>

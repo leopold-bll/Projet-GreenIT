@@ -270,13 +270,38 @@ footer {
 
 .answer-area {
   position: relative;
-  width: 700px;
-  /* Largeur de la zone de réponse */
+  width: 700px; /* Largeur de la zone de réponse */
   height: 100px;
   margin: 1em auto;
   background-color: #e0e0e0;
   border-radius: 5px;
+  display: flex;
+  justify-content: space-between; /* Aligne les éléments de façon espacée */
+  padding: 0% 20px; /* Ajoute un peu d'espace à gauche et à droite */
 }
+
+.answer-area .left-answer, .answer-area .right-answer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.answer-area .answer {
+  padding: 12px 20px;
+  background-color: #ffffff;
+  border: 2px solid #2c3e50; /* Bordure autour des réponses */
+  border-radius: 8px;
+  font-size: 18px;
+  color: #2c3e50;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s ease;
+  width: 80%; /* Prend une largeur relative à la zone */
+  text-align: center;
+}
+
+
 
 .character {
   margin-top: 10px;

@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             characters[index].style.left = '20px';
             answerInputs[index].value = '1';
         } else if (direction === 'right') {
-            characters[index].style.left = '680px';
+            characters[index].style.left = '720px';
             answerInputs[index].value = '2';
         }
 
