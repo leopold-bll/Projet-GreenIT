@@ -47,9 +47,24 @@ INSERT INTO `question` (`quizz_id`,`question`,`answer1`,`answer2`, `correct_answ
   (2, 'Quelle pratique sépare efficacement les flux d’air chaud et froid ?',  'Couloirs chauds/froids','Mélange d’air', TRUE),
   (2, 'Quel logiciel centralise la supervision énergétique d’un datacenter ?',  'DCIM',        'ERP',         TRUE);
   
+  -- 10 questions pour « Introduction au GreenIt » (id_quizz = 3)
+INSERT INTO `quizz` (`name`, `category`) VALUES ('Introduction au Green IT', 'GreenIT');
+
+INSERT INTO `question` (`quizz_id`, `question`, `answer1`, `answer2`, `correct_answer_is_1`) VALUES
+(3, 'Quel est l’objectif principal du Green IT ?', 'Réduire l’impact environnemental des technologies', 'Accroître la production de matériel informatique', 1),
+(3, 'Quel composant consomme le plus dans un ordinateur ?', 'Le disque dur', 'Le processeur', 0),
+(3, 'Quel geste simple permet de réduire la consommation énergétique d’un PC ?', 'Éteindre l’écran quand il n’est pas utilisé', 'Laisser tourner un économiseur d’écran', 1),
+(3, 'Le recyclage du matériel informatique permet-il de réduire les émissions de CO2 ?', 'Oui', 'Non', 1),
+(3, 'Quel type de serveur est plus respectueux de l’environnement ?', 'Serveur physique individuel', 'Serveur virtualisé', 0),
+(3, 'Qu’est-ce que l’éco-conception logicielle ?', 'Optimiser les logiciels pour consommer moins de ressources', 'Créer des logiciels uniquement gratuits', 1),
+(3, 'Parmi ces gestes, lequel est meilleur pour l’environnement ?', 'Utiliser un cloud local et partagé', 'Télécharger en continu des vidéos HD', 1),
+(3, 'Qu’est-ce qui favorise l’obsolescence programmée ?', 'Concevoir des produits réparables', 'Limiter volontairement la durée de vie des produits', 0),
+(3, 'Quel matériau est particulièrement problématique dans les déchets électroniques ?', 'Le plastique recyclé', 'Le plomb', 0),
+(3, 'Quelle est une bonne pratique pour réduire l’empreinte numérique personnelle ?', 'Archiver régulièrement ses mails inutiles', 'Augmenter la qualité de toutes ses vidéos en ligne', 1);
   
-  SELECT * FROM users;
-  SELECT * FROM admins;
-  SELECT * FROM quizz;
-  SELECT * FROM question;
+
+SELECT * FROM users;
+SELECT * FROM admins;
+SELECT * FROM quizz;
+SELECT * FROM question;
 

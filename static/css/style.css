@@ -132,3 +132,42 @@ footer {
 #quizze a:hover {
   background-color: #e6eef7;
 }
+
+#validate-button {
+  display: block;
+  margin: 30px auto 0 auto;
+  padding: 12px 24px;
+  background-color: #2c3e50;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#validate-button:hover {
+  background-color: #1a252f;
+}
+
+#back-to-quizzes {
+  display: block;
+  margin: 20px auto 0 auto;
+  padding: 10px 22px;
+  background-color: #d1d9e0;
+  color: #2c3e50;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  font-family: "Segoe UI", "Roboto", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: fit-content;
+}
+
+#back-to-quizzes:hover {
+  background-color: #b0bac5;
+}
