@@ -16,16 +16,16 @@
   </nav>
   <div class="container">
     <h2>Tableau de Bord Admin</h2>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="flash {{ category }}">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
 
 
     <div id="login-page">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
       <h3>Créer un nouvel utilisateur</h3>
       <form method="POST" action="{{ url_for('create_user') }}">
         <div class="form-group">
