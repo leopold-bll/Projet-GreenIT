@@ -19,7 +19,7 @@ app = Flask(
 # Database URI: use Render’s DATABASE_URL in prod, fallback to local MySQL
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     'DATABASE_URL',
-    'mysql+pymysql://root:root@localhost/bdd-green'
+    'postgresql://bddgreen_user:PmwuIWbI2ixkkuILLbHPKyeH7PRZpVGv@dpg-d07850ali9vc73f2g510-a/bddgreen'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
