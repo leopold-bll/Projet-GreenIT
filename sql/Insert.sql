@@ -48,7 +48,7 @@ INSERT INTO `question` (`quizz_id`,`question`,`answer1`,`answer2`, `correct_answ
   (2, 'Quel logiciel centralise la supervision énergétique d’un datacenter ?',  'DCIM',        'ERP',         TRUE);
   
   -- 10 questions pour « Introduction au GreenIt » (id_quizz = 3)
-INSERT INTO `quizz` (`name`, `category`) VALUES ('Introduction au Green IT', 'GreenIT');
+INSERT INTO `quizz` (id_quizz, `name`, `category`) VALUES (3, 'Introduction au Green IT', 'GreenIT');
 
 INSERT INTO `question` (`quizz_id`, `question`, `answer1`, `answer2`, `correct_answer_is_1`) VALUES
 (3, 'Quel est l’objectif principal du Green IT ?', 'Réduire l’impact environnemental des technologies', 'Accroître la production de matériel informatique', 1),
