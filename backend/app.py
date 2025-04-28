@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
