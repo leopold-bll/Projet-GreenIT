@@ -40,7 +40,7 @@
           <label for="new-password">Mot de passe :</label>
           <input type="password" id="new-password" name="password" required>
         </div>
-        <div style="text-align: center; margin-top: 20px;">
+        <div style="text-align: center; margin-top: 20px; justify-self: center;">
           <button type="submit">Créer</button>
         </div>
       </form>
@@ -52,7 +52,6 @@
           <th>ID</th>
           <th>Nom d'utilisateur</th>
           <th>Email</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody class="">
@@ -68,11 +67,6 @@
               <input type="text" name="username" value="{{ user.username }}" required>
               <input type="email" name="email" value="{{ user.email }}" required>
               <input type="password" name="password" placeholder="Nouveau mot de passe">
-          </td>
-          <td>
-            <button type="submit">Mettre à jour</button>
-          </td>
-          <td>
           </td>
           <td>
             <button type="submit">Mettre à jour</button>
