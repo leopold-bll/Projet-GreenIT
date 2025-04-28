@@ -25,22 +25,26 @@
     {% endwith %}
 
     <!-- Formulaire pour créer un nouvel utilisateur -->
-    <h3>Créer un nouvel utilisateur</h3>
-    <form method="POST" action="{{ url_for('create_user') }}">
-      <div>
-        <label for="new-username">Nom d'utilisateur :</label>
-        <input type="text" id="new-username" name="username" required>
-      </div>
-      <div>
-        <label for="new-email">Email :</label>
-        <input type="email" id="new-email" name="email" required>
-      </div>
-      <div>
-        <label for="new-password">Mot de passe :</label>
-        <input type="password" id="new-password" name="password" required>
-      </div>
-      <button type="submit">Créer</button>
-    </form>
+    <div id="login-page">
+      <h3>Créer un nouvel utilisateur</h3>
+      <form method="POST" action="{{ url_for('create_user') }}">
+        <div class="form-group">
+          <label for="new-username">Nom d'utilisateur :</label>
+          <input type="text" id="new-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="new-email">Email :</label>
+          <input type="email" id="new-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="new-password">Mot de passe :</label>
+          <input type="password" id="new-password" name="password" required>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <button type="submit">Créer</button>
+        </div>
+      </form>
+    </div>
 
     <!-- Liste des utilisateurs -->
     <h3>Utilisateurs Inscrits</h3>
