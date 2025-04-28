@@ -1,4 +1,3 @@
-import os
 from flask import Flask, request, render_template, jsonify, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash
@@ -7,11 +6,8 @@ from hashlib import sha256
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL',
-    'postgresql://bddgreen_user:PmwuIWbI2ixkkuILLbHPKyeH7PRZpVGv@dpg-d07850ali9vc73f2g510-a/bddgreen'
-)
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://avnadmin:AVNS_xROJtELrJX05_lje63N@bdd-green-efrei-89cc.c.aivencloud.com:14637/defaultdb?ssl-mode=REQUIRED'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #config pour login
 app.secret_key = 'super secret key'
