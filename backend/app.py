@@ -4,8 +4,6 @@ from werkzeug.security import generate_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from hashlib import sha256
 
-
-
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/bdd-green'
