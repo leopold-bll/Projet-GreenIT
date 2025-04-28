@@ -16,33 +16,35 @@
   </nav>
   <div class="container">
     <h2>Tableau de Bord Admin</h2>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <div class="flash {{ category }}">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
 
-    <!-- Formulaire pour créer un nouvel utilisateur -->
-    <h3>Créer un nouvel utilisateur</h3>
-    <form method="POST" action="{{ url_for('create_user') }}">
-      <div>
-        <label for="new-username">Nom d'utilisateur :</label>
-        <input type="text" id="new-username" name="username" required>
-      </div>
-      <div>
-        <label for="new-email">Email :</label>
-        <input type="email" id="new-email" name="email" required>
-      </div>
-      <div>
-        <label for="new-password">Mot de passe :</label>
-        <input type="password" id="new-password" name="password" required>
-      </div>
-      <button type="submit" id="admin-create">Créer</button>
-    </form>
 
-    <!-- Liste des utilisateurs -->
+    <div id="login-page">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <h3>Créer un nouvel utilisateur</h3>
+      <form method="POST" action="{{ url_for('create_user') }}">
+        <div class="form-group">
+          <label for="new-username">Nom d'utilisateur :</label>
+          <input type="text" id="new-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="new-email">Email :</label>
+          <input type="email" id="new-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="new-password">Mot de passe :</label>
+          <input type="password" id="new-password" name="password" required>
+        </div>
+        <div style="text-align: center; margin-top: 20px; justify-self: center;">
+          <button type="submit">Créer</button>
+        </div>
+      </form>
+    </div> <!-- Liste des utilisateurs -->
     <h3>Utilisateurs Inscrits</h3>
     <table>
       <thead>
@@ -50,9 +52,9 @@
           <th>ID</th>
           <th>Nom d'utilisateur</th>
           <th>Email</th>
-          <th>Actions</th>
         </tr>
       </thead>
+      <tbody class="">
       <tbody class="">
         {% for user in users %}
         <tr>
@@ -76,6 +78,7 @@
               <button type="submit">Supprimer</button>
             </form>
           </td>
+
 
         </tr>
         {% endfor %}
