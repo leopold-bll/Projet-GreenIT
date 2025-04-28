@@ -1,6 +1,0 @@
-cryptography
-Flask
-Flask-SQLAlchemy
-Flask-Login
-werkzeug
-psycopg2
