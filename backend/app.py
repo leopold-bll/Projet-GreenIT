@@ -4,6 +4,8 @@ from werkzeug.security import generate_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from hashlib import sha256
 
+
+
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/bdd-green'
@@ -64,8 +66,12 @@ def authentification():
     return render_template('authentification.html')
 
 @app.route('/jeu/<int:quizz_id>', methods=['GET', 'POST'])
+@login_required
 def jeu(quizz_id):
-        # on récupère le quiz ou 404
+    # Créer un tracker pour mesurer les émissions de CO2
+    
+
+    # On récupère le quiz ou 404
     quizz = Quizz.query.get_or_404(quizz_id)
 
     if request.method == 'POST':
@@ -78,11 +84,18 @@ def jeu(quizz_id):
                 correct += 1
         current_user.score += correct
         db.session.commit()
+
+        # Arrêter le suivi des émissions après le calcul
+        
+
         # on renvoie le même template mais avec score et total
+        
+
         return render_template('jeu.html', quizz=quizz, score=correct, total=total)
 
     # GET : on envoie juste le quiz pour affichage
     return render_template('jeu.html', quizz=quizz)
+
 
 @app.route('/profile')
 @login_required

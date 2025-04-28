@@ -1,34 +1,65 @@
-{% extends 'accueil.html' %}
-{% block title %}Quiz : {{ quizz.name }}{% endblock %}
-{% block content %}
-  <h2>{{ quizz.name }} ({{ quizz.category }})</h2>
+<!DOCTYPE html>
+<html lang="fr">
 
-  {# Si on a un score, on affiche le résultat #}
-  {% if score is defined %}
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Quiz : {{ quizz.name }}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/runner.js') }}" defer></script>
+</head>
+
+<body>
+  <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('quizz') }}">Quiz</a>
+    <a href="{{ url_for('profile') }}">Profil</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+    {% else %}
+    <a href="{{ url_for('login') }}">Connexion</a>
+    <a href="{{ url_for('register') }}">Inscription</a>
+    {% endif %}
+    <a href="{{ url_for('classement') }}">Classement</a>
+  </nav>
+
+  <div class="container">
+    {% block content %}
+    <h2>{{ quizz.name }} ({{ quizz.category }})</h2>
+
+    {% if score is defined %}
     <div class="result">
       <p>Vous avez <strong>{{ score }}</strong> bonne(s) réponse(s) sur <strong>{{ total }}</strong>.</p>
-      <a href="{{ url_for('quizz') }}">Retour aux quiz</a>
+      <a id="back-to-quizzes" href="{{ url_for('quizz') }}">Retour aux quiz</a>
     </div>
-
-  {# Sinon on affiche le formulaire #}
-  {% else %}
-    <form method="post">
+    {% else %}
+    <form method="post" id="quiz-form">
       {% for q in quizz.questions %}
-        <div>
-          <p><strong>Question {{ loop.index }} :</strong> {{ q.question }}</p>
-          <label>
-            <input type="radio" name="q{{ q.id_question }}" value="1" required>
-            {{ q.answer1 }}
-          </label><br>
-          <label>
-            <input type="radio" name="q{{ q.id_question }}" value="2">
-            {{ q.answer2 }}
-          </label>
-        </div>
-        <hr>
-      {% endfor %}
-      <button type="submit">Valider</button>
-    </form>
-  {% endif %}
-{% endblock %}
+      <fieldset id="quiz-question-{{ q.id_question }}" class="quiz-question">
+        <legend><strong>Question {{ loop.index }} :</strong> {{ q.question }}</legend>
 
+        <div class="answer-area">
+          <div id="character-{{ q.id_question }}" class="character">
+
+          </div>
+          <div class="labels">
+            <span>← {{ q.answer1 }}</span>
+            <span>{{ q.answer2 }} →</span>
+          </div>
+        </div>
+
+        <input type="hidden" name="q{{ q.id_question }}" id="answer-{{ q.id_question }}" required>
+      </fieldset>
+      {% endfor %}
+
+      <button type="submit" id="validate-button">Valider</button>
+    </form>
+    {% endif %}
+    {% endblock %}
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Projet GreunRunner. Tous droits réservés.</p>
+  </footer>
+</body>
+
+</html>

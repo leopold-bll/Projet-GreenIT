@@ -1,17 +1,50 @@
-{% extends 'accueil.html' %}
-{% block title %}Choix du Quiz{% endblock %}
-{% block content %}
-<h2>Choisissez un quiz</h2>
-<ul>
-  {% for quizz in quizzes %}
-  <li>
-    <!-- Utilisez bien la route "jeu" et l'attribut id_quizz -->
-    <a href="{{ url_for('jeu', quizz_id=quizz.id_quizz) }}">
-      {{ quizz.name }} ({{ quizz.category }})
-    </a>
-  </li>
-  {% else %}
-  <li>Aucun quiz disponible.</li>
-  {% endfor %}
-</ul>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Quiz GreenIT{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+  <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('quizz') }}">Quiz</a>
+    <a href="{{ url_for('profile') }}">Profil</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+    {% else %}
+    <a href="{{ url_for('login') }}">Connexion</a>
+    <a href="{{ url_for('register') }}">Inscription</a>
+    {% endif %}
+    <a href="{{ url_for('classement') }}">Classement</a>
+  </nav>
+
+
+
+
+  <div id="quizze">
+    <h2>Choisissez un quiz</h2>
+    <ul>
+      {% for quizz in quizzes %}
+      <li>
+        <!-- Utilisez bien la route "jeu" et l'attribut id_quizz -->
+        <a href="{{ url_for('jeu', quizz_id=quizz.id_quizz) }}">
+          {{ quizz.name }} ({{ quizz.category }})
+        </a>
+      </li>
+      {% else %}
+      <li>Aucun quiz disponible.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+
+
+  <footer>
+    <p> &copy; 2025 Projet GreunRunner. Tous droits réservés.</p>
+  </footer>
+</body>
+
+</html>

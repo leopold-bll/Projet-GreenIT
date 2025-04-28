@@ -20,7 +20,7 @@
         {% endif %}
         <a href="{{ url_for('classement') }}">Classement</a>
     </nav>
-    <div class="container">
+    <div id="login-page" class="container">
         <h2>Inscription</h2>
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -30,20 +30,22 @@
         {% endif %}
         {% endwith %}
         <form method="POST" action="{{ url_for('register') }}">
-            <div>
-                <label for="username">Nom d'utilisateur :</label>
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur </label>
                 <input type="text" id="username" name="username" required>
             </div>
-            <div>
-                <label for="email">Email :</label>
+            <div class="form-group">
+                <label for="email">Email </label>
                 <input type="email" id="email" name="email" required>
             </div>
-            <div>
-                <label for="password">Mot de passe :</label>
+            <div class="form-group">
+                <label for="password">Mot de passe </label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">S'inscrire</button>
+            <button type="submit" class="btn-login">S'inscrire</button>
         </form>
+    </div>
+
     </div>
 
 
