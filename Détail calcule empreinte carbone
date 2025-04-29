@@ -1,0 +1,11 @@
+Conso backend : 0,01008Wh
+==> 0,01008 * 365 = 0.0036792 kWh/an
+
+Conso stockage : 0.000112 GB -- conso moyenne = 1,5W/To
+==> 0.000000168 W = 0.00000147 kWh/an
+
+Conso 1000 requetes par jour
+1000 requetes×0.5 joule=500 joules=0.139 Wh = 0.05074 kWh/an
+
+Donc on a en multiplant ces conso par le facteur carbone de france, ~ 50gCO2/kWh/an
+on a 2,54gCO2/an
